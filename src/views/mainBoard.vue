@@ -15,18 +15,21 @@ import { ref, onMounted } from "vue";
 import apiService from "../service/apiService";
 
 const tableHeader = ref(["no", "아이디", "게시글", "날짜"]);
-const tableList = ref([
-  // ["java", 1, 2, 1],
-  // ["c", 2, 1, 2],
-  // ["c++", 3, 4, 3],
-  // ["python", 4, 7, 6],
-  // ["JS", 17, 18, 8],
-  // ["Vue", 10, 15, 28],
-]);
+const tableList = ref();
 
 const getBoardData = () => {
-  const resData = apiService.tableList();
-  console.log("table getData", resData.boardList);
+  apiService
+    .tableList()
+    .then((o) => {
+      if (o.state) {
+        console.log("OK!!", o);
+        tableList.value = o.boardList;
+      } else {
+        console.log("FAIL!!");
+      }
+      console.log("table getData", tableList.value);
+    })
+    .catch((e) => console.log("catch!!!", e));
 };
 
 onMounted(() => {
