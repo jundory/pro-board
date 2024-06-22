@@ -28,14 +28,28 @@ const postData = reactive({
 <script setup>
 import { reactive } from "vue";
 import apiService from "../service/apiService";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const postData = reactive({
   title: null,
   contents: null,
 });
 
-const savePost = () => {
-  apiService.savePost(postData);
+const savePost = async () => {
+  await apiService
+    .savePost(postData)
+    .then((o) => {
+      if (o.state) {
+        alert(o.message);
+        router.push("/board");
+      } else {
+        console.log("null!");
+      }
+    })
+    .catch((e) => {
+      alert("error!", e);
+    });
 };
 </script>
 <style>

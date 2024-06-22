@@ -38,7 +38,7 @@ const apiService = {
    */
   savePost: async (param) => {
     try {
-      const response = await client.post("/addPost", param);
+      const response = await client.put("/addPost", param);
       if (response.status === 200) {
         return response.data;
       }
