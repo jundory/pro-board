@@ -34,6 +34,7 @@
           </q-item>
         </div>
       </q-list>
+      <q-separator />
       <div><q-icon name="logout" />Logout</div>
     </q-drawer>
 
