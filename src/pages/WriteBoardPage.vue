@@ -1,7 +1,6 @@
 <template>
   <q-page class="wrap">
     <div class="content-wrap">
-      {{ inputWriteValue }}
       <div class="q-pa-md">
         <q-input
           outlined
@@ -10,6 +9,7 @@
           placeholder="제목을 입력해주세요"
         />
       </div>
+      <q-separator />
       <div class="q-pa-md">
         <q-input
           v-model="inputWriteValue.content"
@@ -18,30 +18,43 @@
           placeholder="내용을 입력해주세요"
         />
       </div>
-      <q-item
+      <q-item v-if="!isUpdate"
         ><q-btn
           color="primary"
           label="작성 완료"
           :size="'md'"
-          @click="moveWritePage(inputWriteValue)"
+          @click="createdPost(inputWriteValue)"
+        />
+      </q-item>
+      <q-item v-else
+        ><q-btn
+          color="primary"
+          label="수정 완료"
+          :size="'md'"
+          @click="updatedPost(inputWriteValue)"
         />
       </q-item>
     </div>
   </q-page>
 </template>
 <script setup>
-import { reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import apiService from "../service/apiService";
-import router from "src/router";
+import { useRouter } from "vue-router";
+import { useUserStore } from "../stores/userStore";
+
+const router = useRouter();
+const userStore = useUserStore();
 
 const inputWriteValue = reactive({
   title: "",
   content: "",
 });
 
-const moveWritePage = (inputValue) => {
+// 글 등록
+const createdPost = (inputValue) => {
   const param = {
-    userId: 1,
+    createdBy: userStore.getUserId,
     title: inputValue.title,
     content: inputValue.content,
   };
@@ -54,4 +67,17 @@ const moveWritePage = (inputValue) => {
     router.push("/");
   });
 };
+
+// 글 수정
+const updatedPost = () => {};
+
+const isUpdate = ref(false);
+onMounted(() => {
+  const updatePostData = history.state;
+  if (updatePostData.postData) {
+    isUpdate.value = true;
+    inputWriteValue.title = updatePostData.postData.title;
+    inputWriteValue.content = updatePostData.postData.content;
+  }
+});
 </script>
