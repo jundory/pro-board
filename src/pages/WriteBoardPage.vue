@@ -23,7 +23,7 @@
           color="primary"
           label="작성 완료"
           :size="'md'"
-          @click="createdPost(inputWriteValue)"
+          @click="postRegistered('created', inputWriteValue)"
         />
       </q-item>
       <q-item v-else
@@ -31,7 +31,7 @@
           color="primary"
           label="수정 완료"
           :size="'md'"
-          @click="updatedPost(inputWriteValue)"
+          @click="postRegistered('updated', inputWriteValue)"
         />
       </q-item>
     </div>
@@ -52,30 +52,32 @@ const inputWriteValue = reactive({
 });
 
 // 글 등록
-const createdPost = (inputValue) => {
+const postRegistered = (type, inputValue) => {
   const param = {
-    createdBy: userStore.getUserId,
+    type: type,
+    boardId: boardId.value,
+    userId: userStore.getUserId,
     title: inputValue.title,
     content: inputValue.content,
   };
-  apiService.savePost(param).then((o) => {
+  apiService.registeredPost(param).then((o) => {
     if (o.state) {
-      alert("게시글이 등록되었습니다");
+      alert(`게시글이 ${type}되었습니다`);
     } else {
-      alert("게시글 등록에 실패하였습니다");
+      alert(`${type}에 실패하였습니다`);
     }
     router.push("/");
   });
 };
 
-// 글 수정
-const updatedPost = () => {};
-
 const isUpdate = ref(false);
+const boardId = ref();
 onMounted(() => {
   const updatePostData = history.state;
+  console.log("updatePostData:::::::::::::::::", updatePostData);
   if (updatePostData.postData) {
     isUpdate.value = true;
+    boardId.value = updatePostData.postData.boardId;
     inputWriteValue.title = updatePostData.postData.title;
     inputWriteValue.content = updatePostData.postData.content;
   }

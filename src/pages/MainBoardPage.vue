@@ -56,6 +56,9 @@ const getPostData = () => {
       if (o.state !== false) {
         console.log("successfull api call", o);
         resData.tableList = o.data;
+        resData.tableList.forEach((i) => {
+          i.modifiedDate && (i.createdDate = i.modifiedDate + "(수정됨)");
+        });
       } else {
         resData.message = o.message;
         console.log(resData.message);

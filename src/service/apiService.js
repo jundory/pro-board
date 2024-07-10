@@ -16,6 +16,7 @@ const apiService = {
       return false;
     }
   },
+
   /**
    * @constructor Initial
    * @param {number}
@@ -31,19 +32,41 @@ const apiService = {
       return false;
     }
   },
+
   /**
    * @constructor Initial
    * @param {
-   * userId
+   * created_by
    * title
    * content
    * }
    * @description 글 등록
    */
-  savePost: async (param) => {
+  registeredPost: async (param) => {
     try {
-      console.log("savePost param----------", param);
-      const response = await api.post("/save", param);
+      console.log("registeredPost param----------", param);
+      const response = await api.post("/register", param);
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (err) {
+      return false;
+    }
+  },
+
+  /**
+   * @constructor Initial
+   * @param {
+   * modified_by
+   * title
+   * content
+   * }
+   * @description 글 수정
+   */
+  updatedPost: async (param) => {
+    try {
+      console.log("updatedPost param----------", param);
+      const response = await api.put("/update", param);
       if (response.status === 200) {
         return response.data;
       }
