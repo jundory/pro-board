@@ -36,11 +36,13 @@ const apiService = {
   /**
    * @constructor Initial
    * @param {
-   * created_by
+   * type
+   * board_id
+   * user_id
    * title
    * content
    * }
-   * @description 글 등록
+   * @description 글 등록 및 수정
    */
   registeredPost: async (param) => {
     try {
@@ -57,16 +59,14 @@ const apiService = {
   /**
    * @constructor Initial
    * @param {
-   * modified_by
-   * title
-   * content
+   * board_id
    * }
-   * @description 글 수정
+   * @description 글 삭제
    */
-  updatedPost: async (param) => {
+  removedPost: async (boardId) => {
     try {
-      console.log("updatedPost param----------", param);
-      const response = await api.put("/update", param);
+      console.log("removedPost param----------", boardId);
+      const response = await api.delete(`/remove/${boardId}`);
       if (response.status === 200) {
         return response.data;
       }

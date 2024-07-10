@@ -16,7 +16,7 @@
       <div class="post-comment">댓글 부분</div>
       <div class="post-button">
         <q-btn :size="'md'" label="수정" @click="updatePost()" />
-        <q-btn :size="'md'" label="삭제" />
+        <q-btn :size="'md'" label="삭제" @click="removePost()" />
       </div>
     </div>
   </q-page>
@@ -29,6 +29,20 @@ const route = useRoute();
 const router = useRouter();
 
 const postData = ref();
+
+const removePost = () => {
+  apiService
+    .removedPost(postData.value.boardId)
+    .then((o) => {
+      if (o.state) {
+        alert("삭제 완료!");
+      } else {
+        alert("삭제 실패...");
+      }
+      router.push("/");
+    })
+    .catch((e) => console.log(e));
+};
 
 const updatePost = () => {
   const removeProxyPostData = toRaw(postData.value);
