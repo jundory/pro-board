@@ -11,9 +11,9 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title> 게시판 </q-toolbar-title>
+        <q-toolbar-title @click="router.push('/')"> 게시판 </q-toolbar-title>
 
-        <div @cllick="router.push('/')"><q-icon name="home" />Home</div>
+        <div><q-icon name="logout" />Logout</div>
       </q-toolbar>
     </q-header>
 
@@ -35,7 +35,6 @@
         </div>
       </q-list>
       <q-separator />
-      <div><q-icon name="logout" />Logout</div>
     </q-drawer>
 
     <q-page-container>
@@ -46,6 +45,9 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 defineOptions({
   name: "MainLayout",
