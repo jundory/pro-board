@@ -33,7 +33,7 @@ const loginService = {
    */
   signUp: async (param) => {
     try {
-      console.log("signup param----------", param);
+      console.log("service signUp param----------", param);
       const response = await api.post(`/auth/signUp`, param);
       if (response.status === 200) {
         return response.data;

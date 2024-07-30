@@ -8,16 +8,17 @@
             >작성 시간 : {{ postData?.createdDate }}</span
           >
           <span class="view-count">조회 수 : {{ postData?.viewCount }}</span>
+          <span class="view-count">작성자 : {{ postData?.userName }}</span>
         </div>
       </div>
       <q-separator />
       <div class="post-content">{{ postData?.content }}</div>
       <q-separator />
-      <div class="post-comment">댓글 부분</div>
       <div class="post-button">
         <q-btn :size="'md'" label="수정" @click="updatePost()" />
         <q-btn :size="'md'" label="삭제" @click="removePost()" />
       </div>
+      <div class="post-comment">댓글 부분</div>
     </div>
   </q-page>
 </template>
@@ -108,9 +109,10 @@ onMounted(() => {
   padding: 30px;
 }
 .post-button {
+  width: 100%;
   float: right;
   .q-btn {
-    margin: 0px 15px;
+    margin: 20px;
   }
 }
 </style>

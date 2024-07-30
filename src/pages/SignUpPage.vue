@@ -16,7 +16,7 @@
                     square
                     filled
                     clearable
-                    v-model="userId"
+                    v-model="userInfo.loginId"
                     type="text"
                     label="아이디"
                   />
@@ -24,7 +24,14 @@
                     square
                     filled
                     clearable
-                    v-model="password"
+                    v-model="userInfo.userName"
+                    label="사용자명"
+                  />
+                  <q-input
+                    square
+                    filled
+                    clearable
+                    v-model="userInfo.password"
                     type="password"
                     label="비밀번호"
                   />
@@ -32,14 +39,7 @@
                     square
                     filled
                     clearable
-                    v-model="email"
-                    label="사용자명"
-                  />
-                  <q-input
-                    square
-                    filled
-                    clearable
-                    v-model="userId"
+                    v-model="userInfo.email"
                     type="email"
                     label="이메일"
                   />
@@ -51,7 +51,8 @@
                   color="light-green-7"
                   size="lg"
                   class="full-width"
-                  label="회원가입"
+                  label="가입하기"
+                  @click="signUp"
                 />
               </q-card-actions>
               <q-card-section class="text-center q-pa-none">
@@ -68,12 +69,29 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { reactive } from "vue";
 import { useRouter } from "vue-router";
+import loginService from "../service/loginService";
+// import apiService from "../service/apiService";
 
 const router = useRouter();
-const email = ref();
-const password = ref();
+
+const userInfo = reactive({
+  loginId: "",
+  userName: "",
+  password: "",
+  email: "",
+});
+
+const signUp = async () => {
+  loginService
+    .signUp(userInfo)
+    .then((o) => {
+      console.log("회원가입 api", o);
+      router.push("/");
+    })
+    .catch((e) => console.log("error~~~", e));
+};
 </script>
 
 <style>
