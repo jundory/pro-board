@@ -74,5 +74,39 @@ const apiService = {
       return false;
     }
   },
+
+  /**
+   * @constructor Initial
+   * @param {}
+   * @description 댓글 리스트
+   */
+  getCommentList: async (id) => {
+    try {
+      const response = await api.get(`/commentAll/${id}`);
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (err) {
+      return false;
+    }
+  },
+
+  /**
+   * @constructor Initial
+   * @param {}
+   * @description 댓글 등록
+   */
+  registeredReply: async (param) => {
+    try {
+      console.log("comments param----------------------", param);
+      const response = await api.post(`/addComment`, param);
+      if (response.status === 200) {
+        return response.data;
+      }
+    } catch (err) {
+      return false;
+    }
+  },
 };
+
 export default apiService;

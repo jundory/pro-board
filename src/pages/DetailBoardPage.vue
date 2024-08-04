@@ -9,16 +9,27 @@
           >
           <span class="view-count">조회 수 : {{ postData?.viewCount }}</span>
           <span class="view-count">작성자 : {{ postData?.userName }}</span>
+          <q-btn flat round icon="menu">
+            <q-menu>
+              <q-list style="min-width: 100px">
+                <q-item clickable v-close-popup>
+                  <q-item-section @click="updatePost()">수정</q-item-section>
+                </q-item>
+                <q-item clickable v-close-popup>
+                  <q-item-section @click="removePost()">삭제</q-item-section>
+                </q-item>
+              </q-list>
+              <!-- <q-btn :size="'md'" label="수정" @click="updatePost()" />
+              <q-btn :size="'md'" label="삭제" @click="removePost()" /> -->
+            </q-menu>
+          </q-btn>
         </div>
       </div>
       <q-separator />
       <div class="post-content">{{ postData?.content }}</div>
       <q-separator />
-      <div class="post-button">
-        <q-btn :size="'md'" label="수정" @click="updatePost()" />
-        <q-btn :size="'md'" label="삭제" @click="removePost()" />
-      </div>
-      <div class="post-comment">댓글 부분</div>
+      <InputComment />
+      <CommentList />
     </div>
   </q-page>
 </template>
@@ -26,6 +37,8 @@
 import { onMounted, ref, toRaw } from "vue";
 import apiService from "../service/apiService";
 import { useRoute, useRouter } from "vue-router";
+import CommentList from "../components/CommentList.vue";
+import InputComment from "../components/InputComment.vue";
 const route = useRoute();
 const router = useRouter();
 
@@ -87,7 +100,7 @@ onMounted(() => {
   }
   .post-Info {
     display: flex;
-    text-align: center;
+    align-items: center;
     padding: 10px;
     font-size: 16px;
     .created-time {
@@ -104,15 +117,5 @@ onMounted(() => {
   height: 50vh;
   text-wrap: wrap;
   text-align-last: auto;
-}
-.post-comment {
-  padding: 30px;
-}
-.post-button {
-  width: 100%;
-  float: right;
-  .q-btn {
-    margin: 20px;
-  }
 }
 </style>
