@@ -82,7 +82,7 @@ const apiService = {
    */
   getCommentList: async (id) => {
     try {
-      const response = await api.get(`/commentAll/${id}`);
+      const response = await api.get(`comment/findAll/${id}`);
       if (response.status === 200) {
         return response.data;
       }
@@ -99,7 +99,7 @@ const apiService = {
   registeredReply: async (param) => {
     try {
       console.log("comments param----------------------", param);
-      const response = await api.post(`/addComment`, param);
+      const response = await api.post(`comment/register`, param);
       if (response.status === 200) {
         return response.data;
       }

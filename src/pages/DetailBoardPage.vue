@@ -28,8 +28,8 @@
       <q-separator />
       <div class="post-content">{{ postData?.content }}</div>
       <q-separator />
-      <InputComment />
-      <CommentList />
+      <InputComment @updated="updatedReply()" />
+      <CommentList :key="isUpdated" />
     </div>
   </q-page>
 </template>
@@ -41,6 +41,11 @@ import CommentList from "../components/CommentList.vue";
 import InputComment from "../components/InputComment.vue";
 const route = useRoute();
 const router = useRouter();
+
+const isUpdated = ref(false);
+const updatedReply = () => {
+  isUpdated.value = !isUpdated.value;
+};
 
 const postData = ref();
 

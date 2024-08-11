@@ -1,6 +1,5 @@
 <template>
   <div class="q-pa-md" style="width: 100%">
-    {{ replyData.content }}
     <q-input
       label="유저명"
       outlined
@@ -15,7 +14,7 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, onMounted } from "vue";
+import { defineEmits, reactive, onMounted } from "vue";
 import apiService from "src/service/apiService";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "../stores/userStore";
@@ -23,6 +22,7 @@ import { useUserStore } from "../stores/userStore";
 const userStore = useUserStore();
 const route = useRoute();
 const router = useRouter();
+const emits = defineEmits(["updated"]);
 
 const replyData = reactive({
   content: "",
@@ -32,19 +32,28 @@ const replyData = reactive({
 });
 
 const registeredReply = () => {
-  apiService
-    .registeredReply(replyData)
-    .then((o) => {
-      if (o.state) {
-        alert("댓글을 등록하였습니다.");
-      } else {
-        alert("댓글 등록에 실패했습니다.");
-        // router.push()
-      }
-    })
-    .catch((e) => {
-      alert("catch!!");
-    });
+  console.log("댓글 등록 api", replyData);
+  if (replyData.content != "") {
+    console.log("입력o");
+    apiService
+      .registeredReply(replyData)
+      .then((o) => {
+        if (o.state) {
+          alert("댓글을 등록하였습니다.");
+          emits("updated");
+          replyData.content = "";
+        } else {
+          alert("댓글 등록에 실패했습니다.");
+          // router.push()
+        }
+      })
+      .catch((e) => {
+        alert("registeredReply catch!!");
+      });
+  } else {
+    console.log("입력x");
+    alert("1글자 이상 입력해주세요.");
+  }
 };
 
 onMounted(() => {
